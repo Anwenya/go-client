@@ -4,7 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
-	"log/slog"
+	"log"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -58,7 +58,7 @@ func (c *Config) getTransportCreds() grpc.DialOption {
 		}
 		return grpc.WithTransportCredentials(credentials.NewTLS(c.TLSConfig))
 	} else if c.APIKey != "" {
-		slog.Default().Warn("API key is being used without TLS(HTTPS). It will be transmitted in plaintext.")
+		log.Default().Println("API key is being used without TLS(HTTPS). It will be transmitted in plaintext.")
 	}
 	return grpc.WithTransportCredentials(insecure.NewCredentials())
 }
